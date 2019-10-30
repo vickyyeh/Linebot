@@ -102,17 +102,17 @@ or you can use Snap (Ubuntu 16+)
 sudo snap install --classic heroku
 ```
 
-### Connect to Hreoku
+### Connect to Heroku
 
 1. Register Heroku: https://signup.heroku.com
 
-2. Create Hreoku project from website
+2. Create Heroku project from website
 
 3. CLI Login
 
 	`heroku login`
 
-### Upload project to Hreoku
+### Upload project to Heroku
 
 1. Add local project to Heroku project
 
