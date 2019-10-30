@@ -2,9 +2,9 @@
 
 Template Code for TOC Project 2020
 
-A Facebook messenger bot based on a finite state machine
+A Line bot based on a finite state machine
 
-More details in the [Slides](https://hackmd.io/p/SkpBR-Yam#/) and [FAQ](https://hackmd.io/s/B1Xw7E8kN)
+More details in the [Slides]() and [FAQ](https://hackmd.io/s/B1Xw7E8kN)
 
 ## Setup
 
