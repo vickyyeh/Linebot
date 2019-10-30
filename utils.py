@@ -1,21 +1,17 @@
-import requests
+import os
+
+from linebot import LineBotApi, WebhookParser
+from linebot.models import MessageEvent, TextMessage, TextSendMessage
 
 
-GRAPH_URL = "https://graph.facebook.com/v2.6"
-ACCESS_TOKEN = "Your Page Access Token"
+channel_access_token = os.getenv("LINE_CHANNEL_ACCESS_TOKEN", None)
 
 
-def send_text_message(id, text):
-    url = "{0}/me/messages?access_token={1}".format(GRAPH_URL, ACCESS_TOKEN)
-    payload = {
-        "recipient": {"id": id},
-        "message": {"text": text}
-    }
-    response = requests.post(url, json=payload)
+def send_text_message(reply_token, text):
+    line_bot_api = LineBotApi(channel_access_token)
+    line_bot_api.reply_message(reply_token, TextSendMessage(text=text))
 
-    if response.status_code != 200:
-        print("Unable to send message: " + response.text)
-    return response
+    return "OK"
 
 
 """

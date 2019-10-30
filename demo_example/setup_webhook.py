@@ -14,4 +14,5 @@ def setup_webhook():
         print("WEBHOOK_VERIFIED")
         return challenge
 
+
 run(host="localhost", port=5000, debug=True)
