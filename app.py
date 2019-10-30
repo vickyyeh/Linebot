@@ -13,9 +13,6 @@ from utils import send_text_message
 load_dotenv()
 
 
-WEBHOOK_VERIFY_TOKEN = os.environ.get(
-    "WEBHOOK_VERIFY_TOKEN", "Your Webhook Verify Token"
-)
 machine = TocMachine(
     states=["user", "state1", "state2"],
     transitions=[
