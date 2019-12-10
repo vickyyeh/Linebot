@@ -50,6 +50,12 @@ machine = TocMachine(
         },
         {
             "trigger": "advance",
+            "source": "value_recently_3month",
+            "dest": "cancel",
+            "conditions": "is_going_to_cancel",
+        },
+        {
+            "trigger": "advance",
             "source": "value_recently",
             "dest": "value_recently_2week",
             "conditions": "is_going_to_value_recently_2week",
@@ -59,6 +65,12 @@ machine = TocMachine(
             "source": "value_recently_2week",
             "dest": "value_recently",
             "conditions": "is_going_to_value_recently",
+        },
+        {
+            "trigger": "advance",
+            "source": "value_recently_2week",
+            "dest": "cancel",
+            "conditions": "is_going_to_cancel",
         },
         {
             "trigger": "advance",
@@ -84,7 +96,7 @@ machine = TocMachine(
             "dest": "cancel",
             "conditions": "is_going_to_cancel",
         },
-        {"trigger": "go_back", "source": ["cancel", "value_now", "value_recently_3month", "value_recently_2week", "recommend", "introduction"], "dest": "user"},
+        {"trigger": "go_back", "source": ["cancel", "value_now", "recommend", "introduction"], "dest": "user"},
     ],
     initial="user",
     auto_transitions=False,

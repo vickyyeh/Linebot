@@ -113,7 +113,7 @@ class TocMachine(GraphMachine):
 
     def is_going_to_menu(self, event):
         text = event.message.text
-        return text == "呼叫主選單"
+        return text == "主選單"
 
     def is_going_to_cancel(self, event):
         text = event.message.text
@@ -166,14 +166,12 @@ class TocMachine(GraphMachine):
         pic_url = get_url_3month()
         message = "3個月\n" + str(pic_url)
         send_text_message(reply_token, message)
-        self.go_back()
 
     def on_enter_value_recently_2week(self, event):
         reply_token = event.reply_token
         pic_url = get_url_2week()
         message = "2週\n" + str(pic_url)
         send_text_message(reply_token, message)
-        self.go_back()
 
     def on_enter_recommend(self, event):
         reply_token = event.reply_token
