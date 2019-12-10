@@ -167,3 +167,48 @@ plot_menu = {
     }
   ]
 }
+
+plot = {
+  "type": "carousel",
+  "contents": [
+    {
+      "type": "bubble",
+      "size": "giga",
+      "hero": {
+        "type": "image",
+        "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_1_cafe.png",
+        "aspectMode": "fit",
+        "size": "full"
+      },
+      "footer": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "button",
+            "action": {
+              "type": "message",
+              "label": "查詢其他趨勢",
+              "text": "查詢趨勢走向"
+            },
+            "height": "md",
+            "color": "#5cd65c",
+            "style": "primary"
+          },
+          {
+            "type": "button",
+            "action": {
+              "type": "message",
+              "label": "取消動作",
+              "text": "取消"
+            },
+            "height": "md",
+            "color": "#00cc66",
+            "style": "primary"
+          }
+        ],
+        "spacing": "lg"
+      }
+    }
+  ]
+}
