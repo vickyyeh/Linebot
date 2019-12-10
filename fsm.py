@@ -226,7 +226,7 @@ class TocMachine(GraphMachine):
         reply_token = event.reply_token
         rec_output = get_recommend()
         message = "近3月 " + str(rec_output[0]) + "\n近2週 " + str(rec_output[1])
-        send_text_message(reply_token, "推薦兌幣與否")
+        send_text_message(reply_token, message)
         self.go_back()
 
     def on_enter_introduction(self, event):
