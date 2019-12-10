@@ -138,7 +138,8 @@ def get_recommend():
     df['掛牌日期'] = pd.to_datetime(df['掛牌日期'])
     df.set_index('掛牌日期', inplace=True)
     # recommend sort for 3 month & 2 week
-    recommend_or_not = False
+    recommend_3month = False
+    recommend_2week = False
     date_today = df.index[0]
     df2 = df.copy()
     df2 = df2[0:14]
