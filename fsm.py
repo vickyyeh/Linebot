@@ -1,5 +1,9 @@
 from transitions.extensions import GraphMachine
 
+from linebot import LineBotApi, WebhookParser
+from linebot.exceptions import InvalidSignatureError
+from linebot.models import MessageEvent, TextMessage, TextSendMessage, FlexSendMessage
+
 from utils import send_text_message
 import requests as rs
 from bs4 import BeautifulSoup
@@ -7,6 +11,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import pyimgur
+import message_template
 
 def get_value_now():
     # get html
@@ -228,7 +233,9 @@ class TocMachine(GraphMachine):
 
     def on_enter_menu(self, event):
         reply_token = event.reply_token
-        send_text_message(reply_token, "開啟主選單")
+        message = message_template.main_menu
+        message_to_reply = FlexSendMessage("開啟主選單", message)
+        line_bot_api.reply_message(reply_token, message_to_reply)
     
     def on_enter_cancel(self, event):
         reply_token = event.reply_token
@@ -238,7 +245,7 @@ class TocMachine(GraphMachine):
     def on_enter_value_now(self, event):
         reply_token = event.reply_token
         value_now = get_value_now()
-        message = "現金買入: " + value_now[1] + "現金賣出" + value_now[2] + "匯率買入" + value_now[3] + "匯率賣出" + value_now[4]
+        message = "現金買入: " + value_now[1] + "\n現金賣出" + value_now[2] + "\n匯率買入" + value_now[3] + "\n匯率賣出" + value_now[4]
         send_text_message(reply_token, message)
         self.go_back()
 
