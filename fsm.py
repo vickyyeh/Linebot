@@ -107,6 +107,54 @@ def get_url_2week():
     uploaded_image = im.upload_image(PATH, title="upload")
     return uploaded_image.link
 
+def get_recommend():
+    # get html
+    res = rs.get('https://rate.bot.com.tw/xrt/quote/ltm/JPY')
+    res.encoding = 'utf-8'
+    # get data table
+    soup = BeautifulSoup(res.text, 'lxml')
+    table = soup.find('table', {'class': 'table table-striped table-bordered table-condensed table-hover'})
+    table = table.find_all('tr')
+    # remove table title
+    table = table[2:]
+    # add to dataframe
+    col = ['掛牌日期', '幣別', '現金買入', '現金賣出', '匯率買入', '匯率賣出']
+    data = []
+    for row in table:
+        row_data = []
+        date = row.find('td',{'class':'text-center'}).text
+        currency = row.find('td',{'class':'text-center tablet_hide'}).text
+        cash = row.find_all('td',{'class':'rate-content-cash text-right print_table-cell'})
+        sight = row.find_all('td',{'class':'rate-content-sight text-right print_table-cell'})
+        row_data.append(date)
+        row_data.append(currency)
+        row_data.append(cash[0].text)
+        row_data.append(cash[1].text)
+        row_data.append(sight[0].text)
+        row_data.append(sight[1].text)
+        data.append(row_data)
+    df = pd.DataFrame(data)
+    df.columns = col
+    df['掛牌日期'] = pd.to_datetime(df['掛牌日期'])
+    df.set_index('掛牌日期', inplace=True)
+    # recommend sort for 3 month & 2 week
+    recommend_or_not = False
+    date_today = df.index[0]
+    df2 = df.copy()
+    df2 = df2[0:14]
+    df.sort_values('匯率賣出',inplace=True)
+    date_5min_3month = df.index[0:5]
+    df2.sort_values('匯率賣出',inplace=True)
+    date_5min_2week = df.index[0:3]
+    if (date_today in date_5min_3month):
+        recommend_3month = True
+    if (date_today in date_5min_2week):
+        recommend_2week = True
+    output=[]
+    output.append(recommend_3month)
+    output.append(recommend_2week)
+    return output
+
 class TocMachine(GraphMachine):
     def __init__(self, **machine_configs):
         self.machine = GraphMachine(model=self, **machine_configs)
@@ -175,6 +223,8 @@ class TocMachine(GraphMachine):
 
     def on_enter_recommend(self, event):
         reply_token = event.reply_token
+        rec_output = get_recommend()
+        message = "近3月 " + str(rec_output[0]) + "\n近2週 " + str(rec_output[1])
         send_text_message(reply_token, "推薦兌幣與否")
         self.go_back()
 
