@@ -14,10 +14,16 @@ load_dotenv()
 
 
 machine = TocMachine(
-    states=["menu", "value_now", "value_recently",
+    states=["user", "menu", "value_now", "value_recently",
     "value_recently_3month", "value_recently_2week",
     "recommend", "introduction"],
     transitions=[
+        {
+            "trigger": "advance",
+            "source": "user",
+            "dest": "menu",
+            "conditions": "is_going_to_menu",
+        },
         {
             "trigger": "advance",
             "source": "menu",
@@ -54,9 +60,9 @@ machine = TocMachine(
             "dest": "introduction",
             "conditions": "is_going_to_introduction",
         },
-        {"trigger": "go_back", "source": ["value_now", "value_recently", "value_recently_3month", "value_recently_2week", "recommend", "introduction"], "dest": "menu"},
+        {"trigger": "go_back", "source": ["value_now", "value_recently_3month", "value_recently_2week", "recommend", "introduction"], "dest": "user"},
     ],
-    initial="menu",
+    initial="user",
     auto_transitions=False,
     show_conditions=True,
 )

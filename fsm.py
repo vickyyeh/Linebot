@@ -111,6 +111,10 @@ class TocMachine(GraphMachine):
     def __init__(self, **machine_configs):
         self.machine = GraphMachine(model=self, **machine_configs)
 
+    def is_going_to_menu(self, event):
+        text = event.message.text
+        return text == "呼叫主選單"
+
     def is_going_to_value_now(self, event):
         text = event.message.text
         return text == "查詢即時匯率"
@@ -135,13 +139,14 @@ class TocMachine(GraphMachine):
         text = event.message.text
         return text == "功能介紹與說明"
 
+    def on_enter_menu(self, event):
+        reply_token = event.reply_token
+        send_text_message(reply_token, "開啟主選單")
+
     def on_enter_value_now(self, event):
         reply_token = event.reply_token
         send_text_message(reply_token, "查詢即時值")
         self.go_back()
-
-    def on_exit_value_now(self):
-        print("enter 1")
 
     def on_enter_value_recently(self, event):
         reply_token = event.reply_token
@@ -154,9 +159,6 @@ class TocMachine(GraphMachine):
         send_text_message(reply_token, "3個月")
         self.go_back()
 
-    def on_exit_value_recently_3month(self):
-        print("enter 3")
-
     def on_enter_value_recently_2week(self, event):
         reply_token = event.reply_token
         # pic_url = get_url_2week()
@@ -164,22 +166,13 @@ class TocMachine(GraphMachine):
         send_text_message(reply_token, "2週")
         self.go_back()
 
-    def on_exit_value_recently_2week(self):
-        print("enter 4")
-    
     def on_enter_recommend(self, event):
         reply_token = event.reply_token
         send_text_message(reply_token, "推薦兌幣與否")
         self.go_back()
-
-    def on_exit_recommend(self):
-        print("enter 5")
 
     def on_enter_introduction(self, event):
         reply_token = event.reply_token
         send_text_message(reply_token, "功能介紹與說明")
         self.go_back()
 
-    def on_exit_introduction(self):
-        print("enter 6")
-        
