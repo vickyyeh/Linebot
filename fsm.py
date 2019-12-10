@@ -141,6 +141,7 @@ class TocMachine(GraphMachine):
         self.go_back()
 
     def on_exit_value_now(self):
+        print("enter 1")
 
     def on_enter_value_recently(self, event):
         reply_token = event.reply_token
@@ -148,7 +149,8 @@ class TocMachine(GraphMachine):
         self.go_back()
 
     def on_exit_value_recently(self):
-
+        print("enter 2")
+        
     def on_enter_value_recently_3month(self, event):
         reply_token = event.reply_token
         pic_url = get_url_3month()
@@ -157,6 +159,7 @@ class TocMachine(GraphMachine):
         self.go_back()
 
     def on_exit_value_recently_3month(self):
+        print("enter 3")
 
     def on_enter_value_recently_2week(self, event):
         reply_token = event.reply_token
@@ -166,6 +169,7 @@ class TocMachine(GraphMachine):
         self.go_back()
 
     def on_exit_value_recently_2week(self):
+        print("enter 4")
     
     def on_enter_recommend(self, event):
         reply_token = event.reply_token
@@ -173,6 +177,7 @@ class TocMachine(GraphMachine):
         self.go_back()
 
     def on_exit_recommend(self):
+        print("enter 5")
 
     def on_enter_introduction(self, event):
         reply_token = event.reply_token
@@ -180,3 +185,5 @@ class TocMachine(GraphMachine):
         self.go_back()
 
     def on_exit_introduction(self):
+        print("enter 6")
+        
