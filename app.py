@@ -14,23 +14,49 @@ load_dotenv()
 
 
 machine = TocMachine(
-    states=["user", "state1", "state2"],
+    states=["menu", "value_now", "value_recently",
+    "value_recently_3month", "value_recently_2week",
+    "recommend", "introduction"],
     transitions=[
         {
             "trigger": "advance",
-            "source": "user",
-            "dest": "state1",
-            "conditions": "is_going_to_state1",
+            "source": "menu",
+            "dest": "value_now",
+            "conditions": "is_going_to_value_now",
         },
         {
             "trigger": "advance",
-            "source": "user",
-            "dest": "state2",
-            "conditions": "is_going_to_state2",
+            "source": "menu",
+            "dest": "value_recently",
+            "conditions": "is_going_to_value_recently",
         },
-        {"trigger": "go_back", "source": ["state1", "state2"], "dest": "user"},
+        {
+            "trigger": "advance",
+            "source": "value_recently",
+            "dest": "value_recently_3month",
+            "conditions": "is_going_to_value_recently_3month",
+        },
+        {
+            "trigger": "advance",
+            "source": "value_recently",
+            "dest": "value_recently_2week",
+            "conditions": "is_going_to_value_recently_2week",
+        },
+        {
+            "trigger": "advance",
+            "source": "menu",
+            "dest": "recommend",
+            "conditions": "is_going_to_recommend",
+        },
+        {
+            "trigger": "advance",
+            "source": "menu",
+            "dest": "introduction",
+            "conditions": "is_going_to_introduction",
+        },
+        {"trigger": "go_back", "source": ["value_now", "value_recently", "value_recently_3month", "value_recently_2week", "recommend", "introduction"], "dest": "menu"},
     ],
-    initial="user",
+    initial="menu",
     auto_transitions=False,
     show_conditions=True,
 )
@@ -51,7 +77,7 @@ if channel_access_token is None:
 line_bot_api = LineBotApi(channel_access_token)
 parser = WebhookParser(channel_secret)
 
-
+"""
 @app.route("/callback", methods=["POST"])
 def callback():
     signature = request.headers["X-Line-Signature"]
@@ -77,7 +103,7 @@ def callback():
         )
 
     return "OK"
-
+"""
 
 @app.route("/webhook", methods=["POST"])
 def webhook_handler():
@@ -104,7 +130,7 @@ def webhook_handler():
         print(f"REQUEST BODY: \n{body}")
         response = machine.advance(event)
         if response == False:
-            send_text_message(event.reply_token, "Not Entering any State")
+            send_text_message(event.reply_token, "請依照指示與按鈕來操作!")
 
     return "OK"
 
