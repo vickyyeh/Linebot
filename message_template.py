@@ -113,6 +113,34 @@ main_menu = {
         ],
         "spacing": "lg"
       }
+    },
+    {
+      "type": "bubble",
+      "hero": {
+        "type": "image",
+        "url": "https://i.imgur.com/HXhZ32t.png",
+        "size": "full",
+        "aspectMode": "fit",
+        "aspectRatio": "1.25:1"
+      },
+      "footer": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "button",
+            "action": {
+              "type": "message",
+              "label": "取消選擇",
+              "text": "取消"
+            },
+            "height": "md",
+            "color": "#66d9ff",
+            "style": "primary"
+          }
+        ],
+        "spacing": "lg"
+      }
     }
   ]
 }

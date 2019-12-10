@@ -1,10 +1,19 @@
 from transitions.extensions import GraphMachine
 
+import os
+import sys
+
+from flask import Flask, jsonify, request, abort, send_file
+from dotenv import load_dotenv
 from linebot import LineBotApi, WebhookParser
 from linebot.exceptions import InvalidSignatureError
-from linebot.models import MessageEvent, TextMessage, TextSendMessage, FlexSendMessage
+from linebot.models import MessageEvent, TextMessage, TextSendMessage
 
+from fsm import TocMachine
 from utils import send_text_message
+
+load_dotenv()
+
 import requests as rs
 from bs4 import BeautifulSoup
 import pandas as pd
@@ -235,6 +244,7 @@ class TocMachine(GraphMachine):
         reply_token = event.reply_token
         message = message_template.main_menu
         message_to_reply = FlexSendMessage("開啟主選單", message)
+        line_bot_api = LineBotApi( os.getenv('LINE_CHANNEL_ACCESS_TOKEN') )
         line_bot_api.reply_message(reply_token, message_to_reply)
     
     def on_enter_cancel(self, event):
