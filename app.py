@@ -14,7 +14,7 @@ load_dotenv()
 
 
 machine = TocMachine(
-    states=["user", "menu", "value_now", "value_recently",
+    states=["user", "menu", "cancel", "value_now", "value_recently",
     "value_recently_3month", "value_recently_2week",
     "recommend", "introduction"],
     transitions=[
@@ -44,9 +44,27 @@ machine = TocMachine(
         },
         {
             "trigger": "advance",
+            "source": "value_recently_3month",
+            "dest": "value_recently",
+            "conditions": "is_going_to_value_recently",
+        },
+        {
+            "trigger": "advance",
             "source": "value_recently",
             "dest": "value_recently_2week",
             "conditions": "is_going_to_value_recently_2week",
+        },
+        {
+            "trigger": "advance",
+            "source": "value_recently_2week",
+            "dest": "value_recently",
+            "conditions": "is_going_to_value_recently",
+        },
+        {
+            "trigger": "advance",
+            "source": "value_recently",
+            "dest": "cancel",
+            "conditions": "cancel",
         },
         {
             "trigger": "advance",
@@ -60,7 +78,13 @@ machine = TocMachine(
             "dest": "introduction",
             "conditions": "is_going_to_introduction",
         },
-        {"trigger": "go_back", "source": ["value_now", "value_recently_3month", "value_recently_2week", "recommend", "introduction"], "dest": "user"},
+        {
+            "trigger": "advance",
+            "source": "menu",
+            "dest": "cancel",
+            "conditions": "is_going_to_cancel",
+        },
+        {"trigger": "go_back", "source": ["cancel", "value_now", "value_recently_3month", "value_recently_2week", "recommend", "introduction"], "dest": "user"},
     ],
     initial="user",
     auto_transitions=False,
