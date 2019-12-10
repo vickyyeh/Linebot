@@ -8,6 +8,39 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pyimgur
 
+def get_value_now():
+    # get html
+    res = rs.get('https://rate.bot.com.tw/xrt/quote/ltm/JPY')
+    res.encoding = 'utf-8'
+    # get data table
+    soup = BeautifulSoup(res.text, 'lxml')
+    table = soup.find('table', {'class': 'table table-striped table-bordered table-condensed table-hover'})
+    table = table.find_all('tr')
+    # remove table title
+    table = table[2:]
+    # add to dataframe
+    col = ['掛牌日期', '幣別', '現金買入', '現金賣出', '匯率買入', '匯率賣出']
+    data = []
+    for row in table:
+        row_data = []
+        date = row.find('td',{'class':'text-center'}).text
+        currency = row.find('td',{'class':'text-center tablet_hide'}).text
+        cash = row.find_all('td',{'class':'rate-content-cash text-right print_table-cell'})
+        sight = row.find_all('td',{'class':'rate-content-sight text-right print_table-cell'})
+        row_data.append(date)
+        row_data.append(currency)
+        row_data.append(cash[0].text)
+        row_data.append(cash[1].text)
+        row_data.append(sight[0].text)
+        row_data.append(sight[1].text)
+        data.append(row_data)
+    df = pd.DataFrame(data)
+    df.columns = col
+    df['掛牌日期'] = pd.to_datetime(df['掛牌日期'])
+    df.set_index('掛牌日期', inplace=True)
+    # value query
+    output=df.iloc[0]
+    return output
 
 def get_url_3month():
     # get html
@@ -156,6 +189,7 @@ def get_recommend():
     output.append(recommend_2week)
     return output
 
+
 class TocMachine(GraphMachine):
     def __init__(self, **machine_configs):
         self.machine = GraphMachine(model=self, **machine_configs)
@@ -203,7 +237,9 @@ class TocMachine(GraphMachine):
 
     def on_enter_value_now(self, event):
         reply_token = event.reply_token
-        send_text_message(reply_token, "查詢即時值")
+        value_now = get_value_now()
+        message = "現金買入: " + value_now[1] + "現金賣出" + value_now[2] + "匯率買入" + value_now[3] + "匯率賣出" + value_now[4]
+        send_text_message(reply_token, message)
         self.go_back()
 
     def on_enter_value_recently(self, event):
