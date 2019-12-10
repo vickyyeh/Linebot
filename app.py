@@ -64,7 +64,7 @@ machine = TocMachine(
             "trigger": "advance",
             "source": "value_recently",
             "dest": "cancel",
-            "conditions": "cancel",
+            "conditions": "is_going_to_cancel",
         },
         {
             "trigger": "advance",
