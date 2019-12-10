@@ -254,8 +254,14 @@ class TocMachine(GraphMachine):
     def on_enter_value_now(self, event):
         reply_token = event.reply_token
         value_now = get_value_now()
-        message = "現金買入: " + value_now[1] + "\n現金賣出: " + value_now[2] + "\n匯率買入: " + value_now[3] + "\n匯率賣出: " + value_now[4]
-        send_text_message(reply_token, message)
+        message = message_template.now_table
+        message["body"]["contents"][2]["contents"][0]["contents"][1]["text"] = value_now[1]
+        message["body"]["contents"][2]["contents"][1]["contents"][1]["text"] = value_now[2]
+        message["body"]["contents"][2]["contents"][3]["contents"][1]["text"] = value_now[3]
+        message["body"]["contents"][2]["contents"][4]["contents"][1]["text"] = value_now[4]
+        message_to_reply = FlexSendMessage("查詢即時值", message)
+        line_bot_api = LineBotApi( os.getenv('LINE_CHANNEL_ACCESS_TOKEN') )
+        line_bot_api.reply_message(reply_token, message_to_reply)
         self.go_back()
 
     def on_enter_value_recently(self, event):
