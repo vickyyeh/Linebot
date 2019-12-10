@@ -11,7 +11,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import pyimgur
-import message_template.py
+import message_template
 
 def get_value_now():
     # get html
