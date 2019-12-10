@@ -254,25 +254,34 @@ class TocMachine(GraphMachine):
     def on_enter_value_now(self, event):
         reply_token = event.reply_token
         value_now = get_value_now()
-        message = "現金買入: " + value_now[1] + "\n現金賣出" + value_now[2] + "\n匯率買入" + value_now[3] + "\n匯率賣出" + value_now[4]
+        message = "現金買入: " + value_now[1] + "\n現金賣出: " + value_now[2] + "\n匯率買入: " + value_now[3] + "\n匯率賣出: " + value_now[4]
         send_text_message(reply_token, message)
         self.go_back()
 
     def on_enter_value_recently(self, event):
         reply_token = event.reply_token
-        send_text_message(reply_token, "查詢趨勢走向選單")
+        message = message_template.plot_menu
+        message_to_reply = FlexSendMessage("查詢趨勢走向選單", message)
+        line_bot_api = LineBotApi( os.getenv('LINE_CHANNEL_ACCESS_TOKEN') )
+        line_bot_api.reply_message(reply_token, message_to_reply)
         
     def on_enter_value_recently_3month(self, event):
         reply_token = event.reply_token
         pic_url = get_url_3month()
-        message = "3個月\n" + str(pic_url)
-        send_text_message(reply_token, message)
+        message = message_template.plot
+        message['contents'][0]['hero']['url'] = pic_url
+        message_to_reply = FlexSendMessage("趨勢圖-近三個月", message)
+        line_bot_api = LineBotApi( os.getenv('LINE_CHANNEL_ACCESS_TOKEN') )
+        line_bot_api.reply_message(reply_token, message_to_reply)
 
     def on_enter_value_recently_2week(self, event):
         reply_token = event.reply_token
         pic_url = get_url_2week()
-        message = "2週\n" + str(pic_url)
-        send_text_message(reply_token, message)
+        message = message_template.plot
+        message['contents'][0]['hero']['url'] = pic_url
+        message_to_reply = FlexSendMessage("趨勢圖-近兩週", message)
+        line_bot_api = LineBotApi( os.getenv('LINE_CHANNEL_ACCESS_TOKEN') )
+        line_bot_api.reply_message(reply_token, message_to_reply)
 
     def on_enter_recommend(self, event):
         reply_token = event.reply_token
