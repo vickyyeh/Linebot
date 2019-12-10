@@ -152,9 +152,9 @@ class TocMachine(GraphMachine):
         
     def on_enter_value_recently_3month(self, event):
         reply_token = event.reply_token
-        pic_url = get_url_3month()
-        message = str(pic_url)
-        send_text_message(reply_token, message)
+        # pic_url = get_url_3month()
+        # message = str(pic_url)
+        send_text_message(reply_token, "3個月")
         self.go_back()
 
     def on_exit_value_recently_3month(self):
@@ -162,9 +162,9 @@ class TocMachine(GraphMachine):
 
     def on_enter_value_recently_2week(self, event):
         reply_token = event.reply_token
-        pic_url = get_url_2week()
-        message = str(pic_url)
-        send_text_message(reply_token, message)
+        # pic_url = get_url_2week()
+        # message = str(pic_url)
+        send_text_message(reply_token, "2週")
         self.go_back()
 
     def on_exit_value_recently_2week(self):
