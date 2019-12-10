@@ -146,9 +146,6 @@ class TocMachine(GraphMachine):
     def on_enter_value_recently(self, event):
         reply_token = event.reply_token
         send_text_message(reply_token, "查詢趨勢走向選單")
-
-    def on_exit_value_recently(self):
-        print("enter 2")
         
     def on_enter_value_recently_3month(self, event):
         reply_token = event.reply_token
