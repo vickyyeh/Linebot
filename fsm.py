@@ -211,6 +211,10 @@ class TocMachine(GraphMachine):
         text = event.message.text
         return text == "主選單"
 
+    def is_going_to_show_fsm_pic(self, event):
+        text = event.message.text
+        return text == "查看fsm結構圖"
+
     def is_going_to_cancel(self, event):
         text = event.message.text
         return text == "結束本次操作"
@@ -246,6 +250,14 @@ class TocMachine(GraphMachine):
         line_bot_api = LineBotApi( os.getenv('LINE_CHANNEL_ACCESS_TOKEN') )
         line_bot_api.reply_message(reply_token, message_to_reply)
     
+    def on_enter_show_fsm_pic(self, event):
+        reply_token = event.reply_token
+        message = message_template.show_pic
+        message_to_reply = FlexSendMessage("查看fsm結構圖", message)
+        line_bot_api = LineBotApi( os.getenv('LINE_CHANNEL_ACCESS_TOKEN') )
+        line_bot_api.reply_message(reply_token, message_to_reply)
+        self.go_back()
+
     def on_enter_cancel(self, event):
         reply_token = event.reply_token
         message = message_template.cancel_menu
