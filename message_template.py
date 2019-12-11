@@ -117,6 +117,44 @@ main_menu = {
   ]
 }
 
+cancel_menu = {
+  "type": "bubble",
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "已結束本次操作",
+        "weight": "bold",
+        "size": "xl",
+        "margin": "lg",
+        "align": "center"
+      }
+    ]
+  },
+  "footer": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "button",
+        "style": "primary",
+        "action": {
+          "type": "message",
+          "label": "返回主選單",
+          "text": "主選單"
+        }
+      }
+    ]
+  },
+  "styles": {
+    "footer": {
+      "separator": True
+    }
+  }
+}
+
 plot_menu = {
   "type": "carousel",
   "contents": [
@@ -147,7 +185,7 @@ plot_menu = {
               "text": "最近三個月趨勢"
             },
             "height": "md",
-            "color": "#5cd65c",
+            "color": "#00ff80",
             "style": "primary"
           },
           {
@@ -159,6 +197,17 @@ plot_menu = {
             },
             "height": "md",
             "color": "#00cc66",
+            "style": "primary"
+          },
+          {
+            "type": "button",
+            "action": {
+              "type": "message",
+              "label": "結束本次操作",
+              "text": "結束本次操作"
+            },
+            "height": "md",
+            "color": "#00994d",
             "style": "primary"
           }
         ],
@@ -199,8 +248,8 @@ plot = {
             "type": "button",
             "action": {
               "type": "message",
-              "label": "取消動作",
-              "text": "取消"
+              "label": "結束本次操作",
+              "text": "結束本次操作"
             },
             "height": "md",
             "color": "#00cc66",
@@ -243,14 +292,14 @@ now_table = {
               {
                 "type": "text",
                 "text": "現金買入",
-                "size": "sm",
+                "size": "md",
                 "color": "#555555",
                 "flex": 0
               },
               {
                 "type": "text",
                 "text": "$0.99",
-                "size": "sm",
+                "size": "md",
                 "color": "#111111",
                 "align": "end"
               }
@@ -263,14 +312,14 @@ now_table = {
               {
                 "type": "text",
                 "text": "現金賣出",
-                "size": "sm",
+                "size": "md",
                 "color": "#555555",
                 "flex": 0
               },
               {
                 "type": "text",
                 "text": "$3.33",
-                "size": "sm",
+                "size": "md",
                 "color": "#111111",
                 "align": "end"
               }
@@ -287,13 +336,13 @@ now_table = {
               {
                 "type": "text",
                 "text": "匯率買入",
-                "size": "sm",
+                "size": "md",
                 "color": "#555555"
               },
               {
                 "type": "text",
                 "text": "$8.0",
-                "size": "sm",
+                "size": "md",
                 "color": "#111111",
                 "align": "end"
               }
@@ -306,23 +355,19 @@ now_table = {
               {
                 "type": "text",
                 "text": "匯率賣出",
-                "size": "sm",
+                "size": "md",
                 "color": "#555555"
               },
               {
                 "type": "text",
                 "text": "$0.69",
-                "size": "sm",
+                "size": "md",
                 "color": "#111111",
                 "align": "end"
               }
             ]
           }
         ]
-      },
-      {
-        "type": "separator",
-        "margin": "xxl"
       }
     ]
   },
@@ -335,8 +380,123 @@ now_table = {
         "style": "primary",
         "action": {
           "type": "message",
-          "label": "取消動作",
-          "text": "取消"
+          "label": "返回主選單",
+          "text": "主選單"
+        }
+      }
+    ]
+  },
+  "styles": {
+    "footer": {
+      "separator": True
+    }
+  }
+}
+
+recommend_message = {
+  "type": "bubble",
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "推薦程度",
+        "weight": "bold",
+        "size": "xl",
+        "margin": "md"
+      },
+      {
+        "type": "text",
+        "text": "(台幣換成日幣)"
+      },
+      {
+        "type": "separator",
+        "margin": "xxl"
+      },
+      {
+        "type": "box",
+        "layout": "vertical",
+        "margin": "xxl",
+        "spacing": "sm",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "contents": [
+              {
+                "type": "text",
+                "text": "最近三個月前五點",
+                "size": "md",
+                "color": "#555555",
+                "flex": 0
+              },
+              {
+                "type": "text",
+                "text": "否",
+                "size": "md",
+                "color": "#111111",
+                "align": "end"
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "contents": [
+              {
+                "type": "text",
+                "text": "最近兩週前三低點",
+                "size": "md",
+                "color": "#555555"
+              },
+              {
+                "type": "text",
+                "text": "否",
+                "size": "md",
+                "color": "#111111",
+                "align": "end"
+              }
+            ]
+          },
+          {
+            "type": "separator",
+            "margin": "xxl"
+          },
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "contents": [
+              {
+                "type": "text",
+                "text": "推薦程度",
+                "size": "md",
+                "color": "#555555"
+              },
+              {
+                "type": "text",
+                "text": "低",
+                "size": "md",
+                "color": "#111111",
+                "align": "end"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "footer": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "button",
+        "style": "primary",
+        "action": {
+          "type": "message",
+          "label": "返回主選單",
+          "text": "主選單"
         }
       }
     ]

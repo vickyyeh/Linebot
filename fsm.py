@@ -213,7 +213,7 @@ class TocMachine(GraphMachine):
 
     def is_going_to_cancel(self, event):
         text = event.message.text
-        return text == "取消"
+        return text == "結束本次操作"
 
     def is_going_to_value_now(self, event):
         text = event.message.text
@@ -248,7 +248,10 @@ class TocMachine(GraphMachine):
     
     def on_enter_cancel(self, event):
         reply_token = event.reply_token
-        send_text_message(reply_token, "取消動作")
+        message = message_template.cancel_menu
+        message_to_reply = FlexSendMessage("結束並返回主選單", message)
+        line_bot_api = LineBotApi( os.getenv('LINE_CHANNEL_ACCESS_TOKEN') )
+        line_bot_api.reply_message(reply_token, message_to_reply)
         self.go_back()
 
     def on_enter_value_now(self, event):
@@ -291,9 +294,24 @@ class TocMachine(GraphMachine):
 
     def on_enter_recommend(self, event):
         reply_token = event.reply_token
+        message = message_template.recommend_message
         rec_output = get_recommend()
-        message = "近3月 " + str(rec_output[0]) + "\n近2週 " + str(rec_output[1])
-        send_text_message(reply_token, message)
+        rec_level = 0
+        if rec_output[0]:
+            recommend_message["body"]["contents"][3]["contents"][0]["contents"][1]["text"] = "是"
+            rec_level = rec_level + 1
+        if rec_output[1]:
+            recommend_message["body"]["contents"][3]["contents"][1]["contents"][1]["text"] = "是"
+            rec_level = rec_level + 1
+        if (rec_level == 0):
+            recommend_message["body"]["contents"][3]["contents"][3]["contents"][1]["text"] = "低"
+        elif (rec_level == 1):
+            recommend_message["body"]["contents"][3]["contents"][3]["contents"][1]["text"] = "中"
+        else:
+            recommend_message["body"]["contents"][3]["contents"][3]["contents"][1]["text"] = "高"
+        message_to_reply = FlexSendMessage("是否推薦兌幣", message)
+        line_bot_api = LineBotApi( os.getenv('LINE_CHANNEL_ACCESS_TOKEN') )
+        line_bot_api.reply_message(reply_token, message_to_reply)
         self.go_back()
 
     def on_enter_introduction(self, event):
