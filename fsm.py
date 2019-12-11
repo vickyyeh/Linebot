@@ -298,17 +298,17 @@ class TocMachine(GraphMachine):
         rec_output = get_recommend()
         rec_level = 0
         if rec_output[0]:
-            recommend_message["body"]["contents"][3]["contents"][0]["contents"][1]["text"] = "是"
+            message["body"]["contents"][3]["contents"][0]["contents"][1]["text"] = "是"
             rec_level = rec_level + 1
         if rec_output[1]:
-            recommend_message["body"]["contents"][3]["contents"][1]["contents"][1]["text"] = "是"
+            message["body"]["contents"][3]["contents"][1]["contents"][1]["text"] = "是"
             rec_level = rec_level + 1
         if (rec_level == 0):
-            recommend_message["body"]["contents"][3]["contents"][3]["contents"][1]["text"] = "低"
+            message["body"]["contents"][3]["contents"][3]["contents"][1]["text"] = "低"
         elif (rec_level == 1):
-            recommend_message["body"]["contents"][3]["contents"][3]["contents"][1]["text"] = "中"
+            message["body"]["contents"][3]["contents"][3]["contents"][1]["text"] = "中"
         else:
-            recommend_message["body"]["contents"][3]["contents"][3]["contents"][1]["text"] = "高"
+            message["body"]["contents"][3]["contents"][3]["contents"][1]["text"] = "高"
         message_to_reply = FlexSendMessage("是否推薦兌幣", message)
         line_bot_api = LineBotApi( os.getenv('LINE_CHANNEL_ACCESS_TOKEN') )
         line_bot_api.reply_message(reply_token, message_to_reply)
