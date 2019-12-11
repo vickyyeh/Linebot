@@ -316,6 +316,9 @@ class TocMachine(GraphMachine):
 
     def on_enter_introduction(self, event):
         reply_token = event.reply_token
-        send_text_message(reply_token, "功能介紹與說明")
+        message = message_template.introduction_message
+        message_to_reply = FlexSendMessage("功能介紹與說明", message)
+        line_bot_api = LineBotApi( os.getenv('LINE_CHANNEL_ACCESS_TOKEN') )
+        line_bot_api.reply_message(reply_token, message_to_reply)
         self.go_back()
 
